@@ -10,16 +10,15 @@ import cv2
 import math
 from lxml import etree
 
-for f in os.listdir('C:\\Users\\Administrator\\Desktop\\dataset\\test2014inkml\\'):
+for f in os.listdir('path\\to\\inkml\\dir\\'):
     
-    filepath = 'C:\\Users\\Administrator\\Desktop\\dataset\\test2014inkml\\' + f
+    filepath = 'path\\to\\inkml\\dir\\' + f
     name = f.split('.')[0]
     print(name)
 	# below are typical template for parsing inkml file
     root = xml.etree.ElementTree.parse(filepath).getroot()
     strokes = sorted(root.findall('{http://www.w3.org/2003/InkML}trace'), key=lambda child: child.attrib['id'])  # this is to extract strokes
     recording = []
-    time = 0
     for stroke in strokes:
             stroke = stroke.text.strip().split(',')
             stroke = [point.strip().split(' ') for point in stroke]
@@ -41,7 +40,6 @@ for f in os.listdir('C:\\Users\\Administrator\\Desktop\\dataset\\test2014inkml\\
             recording.append(stroke)
     
     strokes = []
-    
     for r in recording:
     	strokes.append(r)
     
@@ -96,4 +94,4 @@ for f in os.listdir('C:\\Users\\Administrator\\Desktop\\dataset\\test2014inkml\\
             canvas = cv2.line(canvas, (x1, y1), (x2, y2), (255, 255, 255), lineThickness)
     print(canvas.shape)
     
-    imsave('2014test\\' + name + '.bmp', canvas)
+    imsave(name + '.bmp', canvas)
